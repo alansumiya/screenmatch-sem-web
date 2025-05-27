@@ -1,6 +1,7 @@
 package br.com.alura.screenmatchnovo;
 
 import br.com.alura.screenmatchnovo.principal.Principal;
+import br.com.alura.screenmatchnovo.principal.PrincipalNovo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +18,8 @@ public class ScreenmatchnovoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Principal principal = new Principal();
-		principal.exibeMenu();
+		PrincipalNovo principalNovo = new PrincipalNovo();
+		principalNovo.exibeMenu();
 
 
 	}
