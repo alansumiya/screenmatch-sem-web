@@ -2,18 +2,41 @@ package br.com.alura.screenmatchnovo.model;
 
 import br.com.alura.screenmatchnovo.services.ConsultaChatGPT;
 import br.com.alura.screenmatchnovo.services.ConsultaMyMemory;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
-
+@Entity
+@Table(name = "series")//associa o nome que está na tabela do banco de dados com a classe Serie
 public class Serie {
-     private String titulo;
+    //Indica que o atributo id é a chave primária da classe
+    @Id
+    //a geração do id é incremental
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    //indica que o dados inserido nesse atributo é único da tabela, ou seja, um título não pode se
+    //repetir mais de uma vez
+    @Column(unique = true)
+    private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
+    //Estou dizendo que o atributo Categoria é do tipo enum contendo String
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
     private String poster;
     private String sinopse;
+    // é uma anotação que diz para a aplicação não representar os episódios no banco de dados
+    @Transient
+    private List<Episodio> episodios = new ArrayList<>();
+
+    //para que a JPA recupere os dados que foram buscados no banco de dados, ele exige que
+    //tenha um construtor padrão para representar um objeto do tipo serie
+    public Serie(){}
+
+
     //vai encaixando na classe as informações que vem da API
     public Serie(DadosSerie dadosSerie){
         this.titulo = dadosSerie.titulo();
@@ -27,6 +50,14 @@ public class Serie {
         this.atores = dadosSerie.atores();
         this.poster = dadosSerie.poster();
         this.sinopse = ConsultaMyMemory.obterTraducao(dadosSerie.sinopse().trim());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
@@ -83,6 +114,14 @@ public class Serie {
 
     public void setSinopse(String sinopse) {
         this.sinopse = sinopse;
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
     }
 
     @Override
