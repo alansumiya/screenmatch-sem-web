@@ -29,7 +29,10 @@ public class Serie {
     private String poster;
     private String sinopse;
     // é uma anotação que diz para a aplicação não representar os episódios no banco de dados
-    @Transient
+   // @Transient
+    //Relação 1 para muitos, eu tenho uma série que contém vários episódios
+    //O mapeamento é feito indicando para episódio que está sendo feita pelo atributo serie
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodio> episodios = new ArrayList<>();
 
     //para que a JPA recupere os dados que foram buscados no banco de dados, ele exige que
@@ -121,6 +124,8 @@ public class Serie {
     }
 
     public void setEpisodios(List<Episodio> episodios) {
+        //preenche a chave estrangeira na tabela dos episódios
+        episodios.forEach(e -> e.setSerie(this));
         this.episodios = episodios;
     }
 
@@ -132,7 +137,8 @@ public class Serie {
                 ", avaliacao=" + avaliacao +
                 ", atores='" + atores + '\'' +
                 ", poster='" + poster + '\'' +
-                ", sinopse='" + sinopse + '\''
+                ", sinopse='" + sinopse + '\'' +
+                ", episodios='" + episodios + '\''
                 ;
     }
 }
