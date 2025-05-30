@@ -1,12 +1,10 @@
 package br.com.alura.screenmatchnovo.model;
 
-import br.com.alura.screenmatchnovo.services.ConsultaChatGPT;
 import br.com.alura.screenmatchnovo.services.ConsultaMyMemory;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.OptionalDouble;
 @Entity
 @Table(name = "series")//associa o nome que está na tabela do banco de dados com a classe Serie
